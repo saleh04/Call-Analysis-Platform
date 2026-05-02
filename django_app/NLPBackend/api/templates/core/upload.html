@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Upload Call Recording</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="audio" class="form-label">Select Audio File (.wav, .mp3)</label>
+                        <input type="file" name="audio" id="audio" class="form-control" accept=".wav,.mp3" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Analyze Call</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
