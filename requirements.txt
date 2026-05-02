@@ -1,0 +1,13 @@
+# Data Exploration & Visualization
+pandas
+matplotlib
+seaborn
+wordcloud
+jupyter
+
+# Machine Learning & NLP
+torch
+transformers
+datasets
+evaluate
+scikit-learn
