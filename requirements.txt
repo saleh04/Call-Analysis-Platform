@@ -11,3 +11,12 @@ transformers
 datasets
 evaluate
 scikit-learn
+
+# FastAPI 
+fastapi
+uvicorn
+python-multipart
+httpx
+
+# Speech-to-Text
+openai-whisper
