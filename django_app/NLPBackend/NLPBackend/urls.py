@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.upload_file, name='upload'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('delete/<int:pk>/', views.delete_analysis, name='delete_analysis'),
+    path('clear-all/', views.clear_all_analyses, name='clear_all_analyses'),
 ]

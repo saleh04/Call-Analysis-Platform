@@ -20,15 +20,3 @@ httpx
 
 # Speech-to-Text
 openai-whisper
-
-# Backend 
-
-django
-djnagorestframework
-requests
-
-# Instructions to run the Backend:
-#   cd Call-Analysis-Platform/django_app/NLPBackend
-#   py manage.py makemigrations
-#   py manage.py migrate
-#   py manage.py runserver 8080

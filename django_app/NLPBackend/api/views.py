@@ -1,38 +1,86 @@
-import requests
-from django.shortcuts import render, redirect
+# import requests
+# from django.shortcuts import render, redirect
+# from .models import CallAnalysis
+
+# FASTAPI_URL = "http://127.0.0.1:8000/analyze"
+
+# def upload_file(request):
+#     if request.method == 'POST' and request.FILES.get('audio'):
+#         # 1. Save locally first
+#         audio = request.FILES['audio']
+#         record = CallAnalysis.objects.create(audio_file=audio, status='processing')
+        
+#         # 2. Send to FastAPI
+#         try:
+#             files = {'file': (audio.name, audio.read(), audio.content_type)}
+#             response = requests.post(FASTAPI_URL, files=files)
+            
+#             if response.status_code == 200:
+#                 data = response.json()
+#                 # 3. Update model with results
+#                 record.transcript = data.get('transcript')
+#                 record.intent = data.get('intent')
+#                 record.urgency_level = data.get('urgency')
+#                 record.routing_department = data.get('department')
+#                 record.status = 'completed'
+#             else:
+#                 record.status = 'Failed'
+#         except requests.exceptions.RequestException:
+#             record.status = 'failed'
+            
+#         record.save()
+#         return redirect('dashboard')
+
+#     return render(request, 'core/upload.html')
+
+def dashboard(request):
+    analyses = CallAnalysis.objects.all().order_by('-created_at')
+    return render(request, 'core/dashboard.html', {'analyses': analyses})
+
+
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import CallAnalysis
+import requests
 
-FASTAPI_URL = "http://localhost:8000/analyze"
-
+# 1. Update Upload to include confidence
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('audio'):
-        # 1. Save locally first
         audio = request.FILES['audio']
         record = CallAnalysis.objects.create(audio_file=audio, status='processing')
         
-        # 2. Send to FastAPI
         try:
             files = {'file': (audio.name, audio.read(), audio.content_type)}
-            response = requests.post(FASTAPI_URL, files=files, timeout=30)
+            response = requests.post("http://localhost:8000/analyze", files=files, timeout=30)
             
             if response.status_code == 200:
                 data = response.json()
-                # 3. Update model with results
                 record.transcript = data.get('transcript')
                 record.intent = data.get('intent')
+                # Capture the confidence from the FastAPI request
+                raw_confidence = data.get('confidence', 0.0)
+                record.intent_confidence = float(raw_confidence) * 100
                 record.urgency_level = data.get('urgency')
                 record.routing_department = data.get('department')
                 record.status = 'completed'
             else:
                 record.status = 'failed'
-        except requests.exceptions.RequestException:
+        except Exception:
             record.status = 'failed'
             
         record.save()
         return redirect('dashboard')
-
     return render(request, 'core/upload.html')
 
-def dashboard(request):
-    analyses = CallAnalysis.objects.all().order_by('-created_at')
-    return render(request, 'core/dashboard.html', {'analyses': analyses})
+# 2. Delete a single analysis
+def delete_analysis(request, pk):
+    analysis = get_object_or_404(CallAnalysis, pk=pk)
+    analysis.delete()
+    return redirect('dashboard')
+
+# 3. Clear all analyses
+def clear_all_analyses(request):
+    CallAnalysis.objects.all().delete()
+    return redirect('dashboard')
