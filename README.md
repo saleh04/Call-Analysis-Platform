@@ -94,14 +94,14 @@ Solution:
 
 4. Open System Environment Variables.
 
-  - Edit the Path variable under 'System Variables'.
+    - Edit the Path variable under 'System Variables'.
 
-  - Add a new entry pointing to the bin folder: C:\ffmpeg\bin.
+    - Add a new entry pointing to the bin folder: C:\ffmpeg\bin.
 
-  - Restart: Restart your Terminal and VS Code to apply the changes.
+    - Restart: Restart your Terminal and VS Code to apply the changes.
 
 5. Verify: Run ffmpeg -version in your terminal to confirm it's working.
-```
+
 
 ## API Usage
 
