@@ -20,3 +20,8 @@ httpx
 
 # Speech-to-Text
 openai-whisper
+
+# Backend 
+django
+djangorestframework
+requests
