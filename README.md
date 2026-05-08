@@ -78,6 +78,31 @@ python run.py
 - Web UI: http://localhost:8080
 - API Docs: http://localhost:8000/docs
 
+## Troubleshooting
+
+### Missing ffmpeg
+
+Whisper requires ffmpeg for audio processing. If you encounter an error like `[WinError 2] The system cannot find the file specified`:
+
+Solution:
+
+1. Download FFmpeg: Download the latest build from [ffmpeg.org](https://www.ffmpeg.org/download.html).
+
+2. Extract & Locate: Extract the folder to a permanent location, e.g., C:\ffmpeg.
+
+3. Add to Environment Variables (Path):
+
+4. Open System Environment Variables.
+
+  - Edit the Path variable under 'System Variables'.
+
+  - Add a new entry pointing to the bin folder: C:\ffmpeg\bin.
+
+  - Restart: Restart your Terminal and VS Code to apply the changes.
+
+5. Verify: Run ffmpeg -version in your terminal to confirm it's working.
+```
+
 ## API Usage
 
 ### Analyze Call
